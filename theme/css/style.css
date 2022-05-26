@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Teko:wght@300&display=swap');
+
+* {
+    font-family: Teko;
+}
+
+.no-spaces {
+    font-family: Teko;
+    padding: 0px !important;
+    margin: 0px !important;
+}
+
+.footer {
+    background-color: #1a1717;
+    color: white;
+    text-align: center;
+    margin-bottom: 0px;
+    flex-shrink: 0;
+}
+
+.dropdown-item:hover{
+    color: black !important;
+}
+

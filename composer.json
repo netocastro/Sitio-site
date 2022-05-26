@@ -1,0 +1,25 @@
+{
+    "name": "neto-pc/barbearia-site",
+    "description": "Site para barbearias",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Source\\": "src/"
+        },
+        "files": [
+            "src/Core/Config.php",
+            "src/Core/Functions.php"
+        ]
+    },
+    "authors": [{
+        "name": "Neto Castro",
+        "email": "netocastrotec@gmail.com"
+    }],
+    "minimum-stability": "stable",
+    "require": {
+        "stonks/router": "^1.0",
+        "league/plates": "v4.0.0-alpha",
+        "stonks/datalayer": "1.0.*"
+    }
+}
