@@ -5,6 +5,7 @@
 
 <?php $v->end(); ?>
 
+
 <!-- ============================================================== -->
 <!-- End Bread crumb and right sidebar toggle -->
 <!-- ============================================================== -->
@@ -24,6 +25,10 @@
                         <div class="col-1 col-md-3 col-lg-4"></div>
                         <div class="col-10 col-md-6 col-lg-4">
                             <div class="mt-2">
+                                <label for="name">Nome</label>
+                                <input type="text" name="name" class="form-control" id="nome">
+                            </div>
+                            <div class="mt-2">
                                 <label for="breed_id">Raça</label>
                                 <select name="breed_id" id="breed_id" class="form-control">
                                     <option value=""> -- </option>
@@ -36,11 +41,6 @@
                                 <label for="birthday">Nascimento</label>
                                 <input type="date" name="birthday" class="form-control col-3" id="birthday">
                             </div>
-                            <div class="mt-2">
-                                <label for="slaughter_day">Abate</label>
-                                <input type="date" name="slaughter_day" class="form-control col-3" id="slaughter_day">
-                            </div>
-
                             <div class="mt-2">
                                 <label for="starting_weight">Peso inicial (kg)</label>
                                 <input type="text" name="starting_weight" class="form-control" id="starting_weight">

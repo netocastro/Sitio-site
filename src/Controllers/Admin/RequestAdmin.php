@@ -3,6 +3,7 @@
 namespace Source\Controllers\Admin;
 
 use Source\Models\DailyFood;
+use Source\Models\FeedPurchasesHistoric;
 use Source\Models\Pig;
 
 class RequestAdmin
@@ -13,32 +14,31 @@ class RequestAdmin
 
         $user = (isset($_SESSION['userInfo']) ? $_SESSION['userInfo']->id : '');
 
-        $pigs = (new Pig())->find('user_id = :ui', "ui={$user}")->fetch(true);
+        $dailyFoods = (new DailyFood())->find('user_id = :uid and date = :d', "uid={$user}&d={$date}")->fetch(true);
 
-        $feederPigs = [];
-
-        foreach ($pigs as $pig) {
-            if ($pig->dailyFood($date)) {
-                $aux = $pig->dailyFood($date)->data();
-                $aux->foodName = $pig->dailyFood($date)->foodName();
-                $feederPigs[] = $aux;
+        if ($dailyFoods) {
+            foreach ($dailyFoods as $dailyFood) {
+                $dailyFood->foodName = $dailyFood->foodName();
             }
         }
 
-        echo json_encode($feederPigs);
+        echo json_encode(objectToArray($dailyFoods));
     }
-}
+   
+    public function myShopping($data)
+    {
+        $date = filter_var($data['date'], FILTER_SANITIZE_STRING);
 
-/* 
-    $date = filter_var($data['date'], \FILTER_SANITIZE_STRING);
+        $user = (isset($_SESSION['userInfo']) ? $_SESSION['userInfo']->id : '');
 
-    $dailyFoods = (new DailyFood())->find('date = :d', "d={$date}")->fetch(true);
+        $feedPurchasesHistoric = (new FeedPurchasesHistoric())->find('user_id = :uid and date = :d', "uid={$user}&d={$date}")->fetch(true);
 
-    if ($dailyFoods) {
-        foreach ($dailyFoods as $dailyFood) {
-            $dailyFood->foodName = $dailyFood->foodName();
+        if ($feedPurchasesHistoric) {
+            foreach ($feedPurchasesHistoric as $food) {
+                $food->foodName = $food->foodName();
+            }
         }
-    }
 
-    echo json_encode(objectToArray($dailyFoods));
- */
+        echo json_encode(objectToArray($feedPurchasesHistoric));
+    }
+}   

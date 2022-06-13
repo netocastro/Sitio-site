@@ -19,11 +19,11 @@
         <div class="col-sm-12">
             <div class="white-box">
                 <div class="d-flex justify-content-between">
-                    <h3 class="box-title">Alimentação diaria</h3>
-                    <form action="<?= $route->route('requestAdmin.dailyFoods'); ?>" method="POST" data-type="JSON" id="form">
+                    <h3 class="box-title">Minhas compras</h3>
+                    <form action="<?= $route->route('requestAdmin.myShopping'); ?>" method="POST" data-type="JSON" id="form">
                         <input type="date" name="date" class="form-control" value="<?= $date ?>" id="date">
                     </form>
-                    <a href="<?= $route->route('webAdmin.addDailyFood'); ?>" class="h2" style="margin-right: 25%;"><i class="fas fa-plus-circle"></i></a>
+                    <div></div>
                 </div>
 
                 <div class="table-responsive">
@@ -32,25 +32,28 @@
                             <tr>
                                 <th class="border-top-0">Ração</th>
                                 <th class="border-top-0">Quantidade</th>
+                                <th class="border-top-0">Preço</th>
                                 <th class="border-top-0"></th>
                                 <th class="border-top-0"></th>
                             </tr>
                         </thead>
-                        <?php if (isset($dailyFoods)) : ?>
-                            <tbody>
-                                <?php foreach ($dailyFoods as $dailyFood) : ?>
 
-                                    <tr id="<?= $dailyFood->id; ?>">
-                                        <td class="fw-bold"><?= $dailyFood->foodName() ?></td>
-                                        <td><?= $dailyFood->amount ?> kg </td>
-
+                        <tbody>
+                            <?php if (isset($feedPurchasesHistoric)) : ?>
+                                <?php foreach ($feedPurchasesHistoric as $food) : ?>
+                                    <tr id="<?= $food->id; ?>">
+                                        <td class="fw-bold"><?= $food->foodName() ?></td>
+                                        <td><?= $food->amount ?> kg </td>
+                                        <td>R$ <?= $food->price ?></td>
                                         <td><a href="#"><i class="fas fa-edit"></i></a></td>
                                         <td><button data-bs-target="#delete" data-bs-toggle="modal" class="btn delete"><i class="fas fa-trash" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Apagar mensagem"></i></button></td>
                                     </tr>
 
                                 <?php endforeach; ?>
-                            </tbody>
-                        <?php endif; ?>
+                            <?php endif; ?>
+                        </tbody>
+
+
                     </table>
                 </div>
             </div>
@@ -87,7 +90,7 @@
             <div class="modal-body my-3 ps-2 " id="delete-message">
                 <div class="text-center"> Tem certeza que deseja apagar esse registro de alimentação diaria?</div>
                 <div class="text-center mt-3">
-                    <button type="button" class="btn btn-primary confirm-delete" data-id="0" data-bs-dismiss="modal" data-url="<?= $route->route('dailyFood.delete'); ?>">Confirmar</button>
+                    <button type="button" class="btn btn-primary confirm-delete" data-id="0" data-bs-dismiss="modal" data-url="<?= $route->route('feedPurchasesHistoric.delete'); ?>">Confirmar</button>
                 </div>
             </div>
 
@@ -100,6 +103,6 @@
 
 <?php $v->start('js'); ?>
 
-<script src="<?= url('theme/admin/js/dailyFood.js'); ?>"></script>
+<script src="<?= url('theme/admin/js/myShopping.js'); ?>"></script>
 
 <?php $v->end(); ?>

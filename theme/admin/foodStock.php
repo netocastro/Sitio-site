@@ -19,13 +19,9 @@
         <div class="col-sm-12">
             <div class="white-box">
                 <div class="d-flex justify-content-between">
-                    <h3 class="box-title">Alimentação diaria</h3>
-                    <form action="<?= $route->route('requestAdmin.dailyFoods'); ?>" method="POST" data-type="JSON" id="form">
-                        <input type="date" name="date" class="form-control" value="<?= $date ?>" id="date">
-                    </form>
-                    <a href="<?= $route->route('webAdmin.addDailyFood'); ?>" class="h2" style="margin-right: 25%;"><i class="fas fa-plus-circle"></i></a>
+                    <h3 class="box-title">Estoque de ração</h3>
+                    <a href="<?= $route->route('webAdmin.buyFeed'); ?>" class="h2" style="margin-right: 25%;"><i class="fas fa-plus-circle"></i></a>
                 </div>
-
                 <div class="table-responsive">
                     <table class="table text-nowrap">
                         <thead>
@@ -36,13 +32,13 @@
                                 <th class="border-top-0"></th>
                             </tr>
                         </thead>
-                        <?php if (isset($dailyFoods)) : ?>
+                        <?php if (isset($foodStock)) : ?>
                             <tbody>
-                                <?php foreach ($dailyFoods as $dailyFood) : ?>
+                                <?php foreach ($foodStock as $food) : ?>
 
-                                    <tr id="<?= $dailyFood->id; ?>">
-                                        <td class="fw-bold"><?= $dailyFood->foodName() ?></td>
-                                        <td><?= $dailyFood->amount ?> kg </td>
+                                    <tr id="<?= $food->id; ?>">
+                                        <td class="fw-bold"><?= $food->foodName() ?></td>
+                                        <td><?= $food->amount ?> kg </td>
 
                                         <td><a href="#"><i class="fas fa-edit"></i></a></td>
                                         <td><button data-bs-target="#delete" data-bs-toggle="modal" class="btn delete"><i class="fas fa-trash" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Apagar mensagem"></i></button></td>
@@ -87,7 +83,7 @@
             <div class="modal-body my-3 ps-2 " id="delete-message">
                 <div class="text-center"> Tem certeza que deseja apagar esse registro de alimentação diaria?</div>
                 <div class="text-center mt-3">
-                    <button type="button" class="btn btn-primary confirm-delete" data-id="0" data-bs-dismiss="modal" data-url="<?= $route->route('dailyFood.delete'); ?>">Confirmar</button>
+                    <button type="button" class="btn btn-primary confirm-delete" data-id="0" data-bs-dismiss="modal" data-url="<?= $route->route('foodStock.delete'); ?>">Confirmar</button>
                 </div>
             </div>
 

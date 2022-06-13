@@ -4,7 +4,10 @@ namespace Source\Controllers\Admin;
 
 use League\Plates\Engine;
 use Source\Models\Breed;
+use Source\Models\DailyFood;
+use Source\Models\FeedPurchasesHistoric;
 use Source\Models\Food;
+use Source\Models\FoodStock;
 use Source\Models\Pig;
 use Stonks\Router\Router;
 
@@ -96,21 +99,29 @@ class WebAdmin
         $date = date('Y-m-d');
         $user = (isset($_SESSION['userInfo']) ? $_SESSION['userInfo']->id : '');
 
-        $pigs = (new Pig())->find('user_id = :ui', "ui={$user}")->fetch(true);
+        $dailyFoods = (new DailyFood())->find('user_id = :uid and date = :d',"uid={$user}&d={$date}")->fetch(true);
 
-        $feederPigs = [];
-
-        foreach ($pigs as $pig) {
-            if ($pig->dailyFood($date)) {
-                $feederPigs[] = $pig;
-            }
-        }
-    
         echo $this->view->render("dailyFood", [
             "title" => "Alimentação diária",
             "route" => $this->route,
-            "feederPigs" => $feederPigs,
-            "date" => $date
+            "date" => $date,    
+            "dailyFoods" => $dailyFoods
+        ]);
+    }
+    public function foodStock()
+    {
+        $date = date('Y-m-d');
+        $user = (isset($_SESSION['userInfo']) ? $_SESSION['userInfo']->id : '');
+
+        $foodStock = (new FoodStock())->find('user_id = :uid',"uid={$user}")->fetch(true);
+
+       // print_r($foodStock);exit;
+
+        echo $this->view->render("foodStock", [
+            "title" => "Estoque de ração",
+            "route" => $this->route,
+            "date" => $date,    
+            "foodStock" => $foodStock
         ]);
     }
 
@@ -129,4 +140,36 @@ class WebAdmin
             "foods" => $foods,
         ]);
     }
+    
+    public function buyFeed()
+    {
+        $user = (isset($_SESSION['userInfo']) ? $_SESSION['userInfo']->id : '');
+
+        $pigs = (new Pig())->find('user_id = :ui', "ui={$user}")->fetch(true);
+
+        $foods = (new Food())->find('user_id = :ui', "ui={$user}")->fetch(true);
+
+        echo $this->view->render("buyFeed", [
+            "title" => "Adicionar Ração",
+            "route" => $this->route,
+            "pigs" => $pigs,
+            "foods" => $foods,
+        ]);
+    }
+
+    public function myShopping()
+    {
+        $user = (isset($_SESSION['userInfo']) ? $_SESSION['userInfo']->id : '');
+        $date = date('Y-m-d');
+
+        $feedPurchasesHistoric = (new FeedPurchasesHistoric())->find('user_id = :ui and date = :d', "ui={$user}&d={$date}")->fetch(true);
+
+        echo $this->view->render("myShopping", [
+            "title" => "Minhas Compras",
+            "route" => $this->route,
+            "feedPurchasesHistoric" => $feedPurchasesHistoric,
+            "date" => $date
+        ]);
+    }
+
 }

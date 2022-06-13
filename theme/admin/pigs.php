@@ -5,6 +5,7 @@
 
 <?php $v->end(); ?>
 
+
 <!-- ============================================================== -->
 <!-- End Bread crumb and right sidebar toggle -->
 <!-- ============================================================== -->
@@ -23,14 +24,16 @@
                     <a href="<?= $route->route('webAdmin.addPig'); ?>" class="h2" style="margin-right: 25%;"><i class="fas fa-plus-circle"></i></a>
                 </div>
                 <div class="table-responsive">
-                    <table class="table text-nowrap">
+                    <table class="table text-nowrap table-sm">
                         <thead>
                             <tr>
-                                <th class="border-top-0">#</th>
+                                <th class="border-top-0">Nome</th>
                                 <th class="border-top-0">Raça</th>
                                 <th class="border-top-0">Nascimento</th>
                                 <th class="border-top-0">Peso nasc.</th>
                                 <th class="border-top-0">Abate</th>
+                                <th class="border-top-0">vacinado</th>
+                                <th class="border-top-0">den. ser.</th>
                                 <th class="border-top-0"></th>
                                 <th class="border-top-0"></th>
 
@@ -38,13 +41,16 @@
                         </thead>
                         <tbody>
                         <?php if(isset($pigs)) : ?>
+
                             <?php foreach ($pigs as $pig) : ?>
                                 <tr id="<?= $pig->id; ?>">
-                                    <td class="fw-bold"><?= $pig->id ?></td>
+                                    <td class="fw-bold"><?= $pig->name ?></td>
                                     <td><?= $pig->breedName ?></td>
                                     <td><?= date("d/m/Y", strtotime($pig->birthday)); ?></td>
                                     <td><?= $pig->starting_weight ?> kg</td>
                                     <td><?= date("d/m/Y", strtotime($pig->slaughter_day)); ?></td>
+                                    <td class="text-center"><?= ($pig->serrated_teeth ? 'sim' : 'não') ?></td>
+                                    <td class="text-center"><?= ($pig->vaccination ? 'sim' : 'não')?></td>
                                     <td><a href=""><i class="fas fa-edit"></i></a></td>
                                     <td><button data-bs-target="#delete" data-bs-toggle="modal" class="btn delete"><i class="fas fa-trash" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Apagar mensagem"></i></button></td>
                                 </tr>

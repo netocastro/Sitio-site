@@ -18,14 +18,16 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="white-box">
-                <form action="<?= $route->route('dailyFood.store'); ?>" method="POST" data-type="JSON" id="form">
-                    <h3 class="box-title">Alimentar porco</h3>
+                <form action="<?= $route->route('FeedPurchasesHistoric.store'); ?>" method="POST" data-type="JSON" id="form">
+                    <h3 class="box-title">Comprar ração</h3>
+
+                    
                     <div class="row">
                         <div class="col-1 col-md-3 col-lg-4"></div>
                         <div class="col-10 col-md-6 col-lg-4">
                             <div class="mt-2">
                                 <label for="date">Data</label>
-                                <input type="date" name="date" class="form-control col-3" id="date">
+                                <input type="date" name="date" class="form-control col-3" id="date"  value="<?= $date ?>">
                             </div>
                             <div class="mt-2">
                                 <label for="food_id">Escolha a comida</label>
@@ -40,6 +42,11 @@
                             <div class="mt-2">
                                 <label for="amount">Quantidade de comida (kg)</label>
                                 <input type="text" name="amount" class="form-control">
+                            </div>
+
+                            <div class="mt-2">
+                                <label for="price">Preço</label>
+                                <input type="text" name="price" class="form-control">
                             </div>
 
                             <div class="d-grid mt-3">
@@ -73,6 +80,6 @@
 
 <?php $v->start('js'); ?>
 
-<script src="<?= url('theme/admin/js/addDailyFood.js'); ?>"></script>
+<script src="<?= url('theme/admin/js/buyFeed.js'); ?>"></script>
 
 <?php $v->end(); ?>

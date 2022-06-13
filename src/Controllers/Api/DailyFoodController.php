@@ -4,6 +4,7 @@ namespace Source\Controllers\Api;
 
 use Source\Models\DailyFood;
 use Source\Models\Food;
+use Source\Models\FoodStock;
 use Source\Models\Pig;
 
 class DailyFoodController
@@ -45,7 +46,6 @@ class DailyFoodController
         }
 
         $data = filter_var_array($data, [
-            "pig_id" => FILTER_SANITIZE_NUMBER_INT,
             "food_id" => FILTER_SANITIZE_NUMBER_INT,
             "amount" => [FILTER_SANITIZE_NUMBER_FLOAT => FILTER_FLAG_ALLOW_FRACTION],
             "date" => FILTER_SANITIZE_STRING
@@ -55,28 +55,30 @@ class DailyFoodController
 
         echo json_encode(preg_match("/[^0-9]*[.][^0-9]{2,3}/", $data['amount']));*/
 
-      //  echo json_encode(objectToArray((new DailyFood())->find('pig_id = :pi and date = :d',"pi={$data['pig_id']}&d={$data['date']}")->fetch()));
+        //  echo json_encode(objectToArray((new DailyFood())->find('pig_id = :pi and date = :d',"pi={$data['pig_id']}&d={$data['date']}")->fetch()));
 
-       // return;
+        // return;
 
         $validateFields = [];
 
+        if (!is_numeric($data['amount'])) {
+            $validateFields['amount'] = 'valor invalido';
+        }
+
         $user = (isset($_SESSION['userInfo']) ? $_SESSION['userInfo']->id : '');
-
-        if (!(new Pig())->find('user_id = :ui', "ui={$user}")->fetch()) {
-            $validateFields['pig_id'] = 'Esse porco não pertence a esse usuário';
-        }
-
-        if (!(new Pig())->findById($data['pig_id'])) {
-            $validateFields['pig_id'] = 'Esse porco não está cadastrado';
-        }
 
         if (!(new Food())->findById($data['food_id'])) {
             $validateFields['food_id'] = 'Essa ração não está cadastrada';
         }
 
-        if ((new DailyFood())->find('pig_id = :pi and date = :d',"pi={$data['pig_id']}&d={$data['date']}")->fetch()) {
-            $validateFields['amount'] = 'Esse Porco ja foi alimentado nessa data';
+        $foodStock = (new FoodStock())->find('user_id = :uid and food_id = :fid', "uid={$_SESSION['userInfo']->id}&fid={$data['food_id']}")->fetch();
+
+        if (!$foodStock) {
+            $validateFields['amount'] = 'Não há ração no estoque';
+        }
+
+        if (isset($foodStock) && ($foodStock->amount - $data['amount']) < 0) {
+            $validateFields['amount'] = "Estoque insuficiente!  <span class='ms-1'>Estoque = " . $foodStock->amount . " kg</span>";
         }
 
         if ($validateFields) {
@@ -84,8 +86,20 @@ class DailyFoodController
             return;
         }
 
+        if ($foodStock) {
+            $foodStock->amount -= $data['amount'];
+
+            $foodStock->change()->save();
+
+            if ($foodStock->fail()) {
+                echo json_encode($foodStock->fail()->getMessage());
+                return;
+            }
+        }
+
+
         $daily_food = new DailyFood();
-        $daily_food->pig_id = $data['pig_id'];
+        $daily_food->user_id = $_SESSION['userInfo']->id;
         $daily_food->food_id = $data['food_id'];
         $daily_food->date = $data['date'];
         $daily_food->amount = $data['amount'];
@@ -101,15 +115,13 @@ class DailyFoodController
 
     public function delete($data)
     {
-        //echo json_encode($data);
-        //exit;
-        $daily_food = (new DailyFood())->findById($data['id']);
+        $daily_food = (new DailyFood())->find('user_id = :uid and id = :id', "uid={$_SESSION['userInfo']->id}&id={$data['id']}")->fetch();
 
         if ($daily_food) {
             if ($daily_food->destroy()) {
                 echo json_encode(['deletedDailyFood' => 'Alimentação deletado com sucesso']);
             } else {
-                echo json_encode($daily_food->fail()->getMessage());  
+                echo json_encode($daily_food->fail()->getMessage());
             }
             return;
         } else {

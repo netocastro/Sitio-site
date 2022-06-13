@@ -24,7 +24,7 @@ $s = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === "on") ? 's' : '');
 /*
 * Complemento da constante BASE_PATH caso o porjeto não esteja na raiz do servidor
 */
-$directory = '/development/2022/PHP/app-pai-porcos';
+$directory = '/development/2022/PHP/Sitio-site';
 
 /*
 * Constante que define a url absoluta do projeto

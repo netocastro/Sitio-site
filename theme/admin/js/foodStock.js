@@ -1,32 +1,6 @@
 $(function () {
 
-    $('#date').on('change', function () {
-
-        let date = $('#date').val();
-
-        $.ajax({
-            url: $('#form').attr('action'),
-            type: $('#form').attr('method'),
-            dataType: $('#form').attr('data-type'),
-            data: 'date=' + date,
-            beforeSend: function () {
-
-            },
-            success: (data) => {
-                console.log(data);
-                $('tbody').html('');
-                dailyFoods(data);
-            },
-            error: (error) => {
-                console.log(error.responseText);
-            }
-        }).always(function () {
-
-        });
-
-    });
-
-    $(document).on('click', '.delete', function () {
+    $('.delete').on('click', function () {
         console.log($('.confirm-delete').data('id'));
         $('.confirm-delete').data('id', $(this).closest('tr').attr('id'));
     });
@@ -36,7 +10,7 @@ $(function () {
         let _this = $(this);
         $.ajax({
             url: _this.data('url'),
-            type: 'DELETE', 
+            type: 'DELETE',
             dataType: 'JSON',
             data: 'id=' + $('.confirm-delete').data('id'),
             success: function (data) {
@@ -58,8 +32,9 @@ function dailyFoods(data) {
     data.forEach(element => {
 
         $('tbody').append(`
-            <tr id="${element.id}">
-                <td class="fw-bold">${element.foodName}</td>
+            <tr id="${element.pig_id}">
+                <td class="fw-bold">${element.pig_id}</td>
+                <td>${element.foodName}</td>
                 <td>${element.amount}</td>
                 
                 <td><a href="#"><i class="fas fa-edit"></i></a></td>

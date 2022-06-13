@@ -15,7 +15,7 @@ $(function () {
             success: (data) => {
                 console.log(data);
                 $('tbody').html('');
-                dailyFoods(data);
+                feedPurchasesHistoric(data);
             },
             error: (error) => {
                 console.log(error.responseText);
@@ -25,6 +25,7 @@ $(function () {
         });
 
     });
+
 
     $(document).on('click', '.delete', function () {
         console.log($('.confirm-delete').data('id'));
@@ -36,13 +37,13 @@ $(function () {
         let _this = $(this);
         $.ajax({
             url: _this.data('url'),
-            type: 'DELETE', 
+            type: 'DELETE',
             dataType: 'JSON',
             data: 'id=' + $('.confirm-delete').data('id'),
             success: function (data) {
                 console.log(data);
                 console.log($('.confirm-delete').data('id'));
-                if (data.deletedDailyFood) {
+                if (data.deletedFeedPurchasesHistoric) {
                     $(`#${$('.confirm-delete').data('id')}`).fadeOut().remove();
                 }
             },
@@ -53,15 +54,15 @@ $(function () {
     });
 });
 
-function dailyFoods(data) {
+function feedPurchasesHistoric(data) {
     $('tbody').hide();
     data.forEach(element => {
-
+        console.log(element);
         $('tbody').append(`
             <tr id="${element.id}">
                 <td class="fw-bold">${element.foodName}</td>
                 <td>${element.amount}</td>
-                
+                <td>${element.price}</td>
                 <td><a href="#"><i class="fas fa-edit"></i></a></td>
                 <td><button data-bs-target="#delete" data-bs-toggle="modal" class="btn delete"><i class="fas fa-trash" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Apagar mensagem"></i></button></td>
             </tr>

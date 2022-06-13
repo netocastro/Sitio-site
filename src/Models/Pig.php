@@ -8,7 +8,7 @@ class Pig extends DataLayer
 {
     public function __construct()
     {
-        parent::__construct('pigs', ['breed_id', 'user_id', 'birthday', 'slaughter_day','starting_weight'], 'id', true);
+        parent::__construct('pigs', ['name', 'user_id', 'breed_id', 'birthday', 'slaughter_day', 'serrated_teeth', 'vaccination', 'starting_weight'], 'id', true);
     }
 
     public function breedName()

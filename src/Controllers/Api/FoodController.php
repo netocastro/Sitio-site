@@ -50,6 +50,9 @@ class FoodController
             $validateFields['name'] = 'Nome já foi cadastrado';
         }
 
+        /**
+         * nao ta aceitando acentuações ou ç
+         */
         if (!validateName($data['name'])) {
             $validateFields['name'] = 'Formato do nome inválido';
         }
@@ -76,7 +79,7 @@ class FoodController
     {
         /* o $data['id'] foi colocado para suprir as necessidade da propria aplicação
         para uma api separada e externa alterar para $data['food'] */
-        $food = (new Food())->findById($data['id']); 
+        $food = (new Food())->find('user_id = :uid and id = :id', "uid={$_SESSION['userInfo']->id}&id={$data['id']}")->fetch();
 
         if ($food) {
             if ($food->destroy()) {
