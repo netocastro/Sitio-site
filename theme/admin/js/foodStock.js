@@ -16,7 +16,7 @@ $(function () {
             success: function (data) {
                 console.log(data);
                 console.log($('.confirm-delete').data('id'));
-                if (data.deletedDailyFood) {
+                if (data.deletedFoodStock) {
                     $(`#${$('.confirm-delete').data('id')}`).fadeOut().remove();
                 }
             },
@@ -26,21 +26,3 @@ $(function () {
         });
     });
 });
-
-function dailyFoods(data) {
-    $('tbody').hide();
-    data.forEach(element => {
-
-        $('tbody').append(`
-            <tr id="${element.pig_id}">
-                <td class="fw-bold">${element.pig_id}</td>
-                <td>${element.foodName}</td>
-                <td>${element.amount}</td>
-                
-                <td><a href="#"><i class="fas fa-edit"></i></a></td>
-                <td><button data-bs-target="#delete" data-bs-toggle="modal" class="btn delete"><i class="fas fa-trash" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Apagar mensagem"></i></button></td>
-            </tr>
-        `).fadeIn();
-    });
-
-}

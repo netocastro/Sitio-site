@@ -9,6 +9,7 @@ use Source\Models\Pig;
 
 class DailyFoodController
 {
+
     public function index()
     {
         $daily_food = objectToArray((new DailyFood())->find()->fetch(true));
@@ -38,6 +39,10 @@ class DailyFoodController
 
     public function store($data)
     {
+
+        //        $foodStock = (new DailyFood())->find('user_id = :uid and date = :date', "uid={$_SESSION['userInfo']->id}&date={$data['date']}")->fetch();
+
+
         $findEmptyFields = array_keys($data, '');
 
         if ($findEmptyFields) {
@@ -50,14 +55,6 @@ class DailyFoodController
             "amount" => [FILTER_SANITIZE_NUMBER_FLOAT => FILTER_FLAG_ALLOW_FRACTION],
             "date" => FILTER_SANITIZE_STRING
         ]);
-
-        /*$data['amount'] = preg_replace("/[^0-9\.]/", "", $data['amount']);
-
-        echo json_encode(preg_match("/[^0-9]*[.][^0-9]{2,3}/", $data['amount']));*/
-
-        //  echo json_encode(objectToArray((new DailyFood())->find('pig_id = :pi and date = :d',"pi={$data['pig_id']}&d={$data['date']}")->fetch()));
-
-        // return;
 
         $validateFields = [];
 
@@ -77,7 +74,7 @@ class DailyFoodController
             $validateFields['amount'] = 'Não há ração no estoque';
         }
 
-        if (isset($foodStock) && ($foodStock->amount - $data['amount']) < 0) {
+        if (isset($foodStock) && ($foodStock->amount - number_format($data['amount'], 3, '.', ',')) < 0) {
             $validateFields['amount'] = "Estoque insuficiente!  <span class='ms-1'>Estoque = " . $foodStock->amount . " kg</span>";
         }
 
@@ -86,30 +83,57 @@ class DailyFoodController
             return;
         }
 
+        $dailyFood = (new DailyFood())->find('user_id = :uid and date = :date and food_id = :fid',
+         "uid={$_SESSION['userInfo']->id}&date={$data['date']}&fid={$data['food_id']}")->fetch();
+
+        if ($dailyFood) {
+
+            $dailyFood->amount += $data['amount'];
+
+            $dailyFood->change()->save();
+
+            //echo json_encode($data['food_id']);
+           // exit;
+
+            if ($dailyFood->fail()) {
+                echo json_encode($dailyFood->fail()->getMessage());
+                return;
+            }
+        } else {
+            $dailyFood = new DailyFood();
+
+            $dailyFood->user_id = $_SESSION['userInfo']->id;
+            $dailyFood->food_id = $data['food_id'];
+            $dailyFood->date = $data['date'];
+            $dailyFood->amount = $data['amount'];
+
+            $dailyFood->save();
+
+            if ($dailyFood->fail()) {
+                echo json_encode($dailyFood->fail()->getMessage());
+                return;
+            }
+        }
+
         if ($foodStock) {
             $foodStock->amount -= $data['amount'];
 
             $foodStock->change()->save();
 
             if ($foodStock->fail()) {
+
+                $dailyFood->amount -= $data['amount'];
+                $dailyFood->change()->save();
+
+                if ($dailyFood->amount <= 0) {
+                    $dailyFood->destroy();
+                }
+
                 echo json_encode($foodStock->fail()->getMessage());
                 return;
             }
         }
 
-
-        $daily_food = new DailyFood();
-        $daily_food->user_id = $_SESSION['userInfo']->id;
-        $daily_food->food_id = $data['food_id'];
-        $daily_food->date = $data['date'];
-        $daily_food->amount = $data['amount'];
-
-        $daily_food->save();
-
-        if ($daily_food->fail()) {
-            echo json_encode($daily_food->fail()->getMessage());
-            return;
-        }
         echo json_encode(['success' => 'Registrado com sucesso']);
     }
 

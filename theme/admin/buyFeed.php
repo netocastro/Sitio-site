@@ -21,13 +21,13 @@
                 <form action="<?= $route->route('FeedPurchasesHistoric.store'); ?>" method="POST" data-type="JSON" id="form">
                     <h3 class="box-title">Comprar ração</h3>
 
-                    
+
                     <div class="row">
                         <div class="col-1 col-md-3 col-lg-4"></div>
                         <div class="col-10 col-md-6 col-lg-4">
                             <div class="mt-2">
                                 <label for="date">Data</label>
-                                <input type="date" name="date" class="form-control col-3" id="date"  value="<?= $date ?>">
+                                <input type="date" name="date" class="form-control col-3" id="date" value="<?= $date ?>">
                             </div>
                             <div class="mt-2">
                                 <label for="food_id">Escolha a comida</label>
@@ -41,18 +41,22 @@
 
                             <div class="mt-2">
                                 <label for="amount">Quantidade de comida (kg)</label>
-                                <input type="text" name="amount" class="form-control">
+                                <input type="number" name="amount" class="form-control" step="0.001">
                             </div>
 
                             <div class="mt-2">
                                 <label for="price">Preço</label>
-                                <input type="text" name="price" class="form-control">
+                                <input type="number" name="price" class="form-control" step="0.001">
                             </div>
 
                             <div class="d-grid mt-3">
                                 <button class="btn btn-primary" type="submit">Salvar</button>
                             </div>
-
+                            <div class="d-none justify-content-center mt-2 load">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-1 col-md-3 col-lg-4"></div>
                     </div>

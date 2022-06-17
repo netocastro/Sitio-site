@@ -42,7 +42,7 @@
 
                                     <tr id="<?= $dailyFood->id; ?>">
                                         <td class="fw-bold"><?= $dailyFood->foodName() ?></td>
-                                        <td><?= $dailyFood->amount ?> kg </td>
+                                        <td><?= number_format($dailyFood->amount, 3, ',', '.') ?> kg </td>
 
                                         <td><a href="#"><i class="fas fa-edit"></i></a></td>
                                         <td><button data-bs-target="#delete" data-bs-toggle="modal" class="btn delete"><i class="fas fa-trash" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Apagar mensagem"></i></button></td>

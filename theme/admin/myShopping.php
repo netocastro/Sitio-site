@@ -25,14 +25,19 @@
                     </form>
                     <div></div>
                 </div>
-
+                <div class="text-danger"> 
+                    Perguntar se meu pai quer os registros de cada compra, ou se 
+                    ele quer apenas os valores totais gastos em cada ração no dia.
+                </div>
                 <div class="table-responsive">
                     <table class="table text-nowrap">
+
                         <thead>
                             <tr>
                                 <th class="border-top-0">Ração</th>
                                 <th class="border-top-0">Quantidade</th>
                                 <th class="border-top-0">Preço</th>
+                                <th class="border-top-0">Preço/kg</th>
                                 <th class="border-top-0"></th>
                                 <th class="border-top-0"></th>
                             </tr>
@@ -43,8 +48,9 @@
                                 <?php foreach ($feedPurchasesHistoric as $food) : ?>
                                     <tr id="<?= $food->id; ?>">
                                         <td class="fw-bold"><?= $food->foodName() ?></td>
-                                        <td><?= $food->amount ?> kg </td>
-                                        <td>R$ <?= $food->price ?></td>
+                                        <td><?= number_format($food->amount, 3, ',', '.') ?> kg </td>
+                                        <td>R$ <?= number_format($food->price, 2, ',', '.') ?></td>
+                                        <td>R$ <?= number_format($food->price / $food->amount, 2, ',', '.')   ?></td>
                                         <td><a href="#"><i class="fas fa-edit"></i></a></td>
                                         <td><button data-bs-target="#delete" data-bs-toggle="modal" class="btn delete"><i class="fas fa-trash" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Apagar mensagem"></i></button></td>
                                     </tr>

@@ -27,7 +27,6 @@
                     <table class="table text-nowrap">
                         <thead>
                             <tr>
-                                <th class="border-top-0">#</th>
                                 <th class="border-top-0">Nome</th>
                                 <th class="border-top-0"></th>
                                 <th class="border-top-0"></th>
@@ -37,7 +36,6 @@
                             <?php if (isset($foods)) : ?>
                                 <?php foreach ($foods as $food) : ?>
                                     <tr id="<?= $food->id; ?>">
-                                        <td class="fw-bold"><?= $food->id ?></td>
                                         <td><?= $food->name ?></td>
                                         <td><a href="#"><i class="fas fa-edit"></i></a></td>
                                         <td><button data-bs-target="#delete" data-bs-toggle="modal" class="btn delete"><i class="fas fa-trash" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Apagar mensagem"></i></button></td>

@@ -10,7 +10,6 @@ $(function () {
             dataType: $('#form').attr('data-type'),
             data: 'date=' + date,
             beforeSend: function () {
-
             },
             success: (data) => {
                 console.log(data);
@@ -21,7 +20,6 @@ $(function () {
                 console.log(error.responseText);
             }
         }).always(function () {
-
         });
 
     });

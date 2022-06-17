@@ -78,7 +78,8 @@ class FoodController
     public function delete($data)
     {
         /* o $data['id'] foi colocado para suprir as necessidade da propria aplicação
-        para uma api separada e externa alterar para $data['food'] */
+        para uma api separada e externa alterar para $data['food'] 
+        $food = (new Food())->findById*($data['food']);*/
         $food = (new Food())->find('user_id = :uid and id = :id', "uid={$_SESSION['userInfo']->id}&id={$data['id']}")->fetch();
 
         if ($food) {

@@ -20,6 +20,7 @@ $route->get("/registro", "Web:register", "web.register");
 $route->get("/contato", "Web:contact", "web.contact");
 $route->get("/sobre", "Web:about", "web.about");
 $route->get("/lista-porcos", "Web:pigList", "web.pigList");
+$route->get("/error/{error}", "Web:error", "web.error");
 
 /** Requisições */
 $route->post("/login", "Request:login", "request.login");
@@ -47,6 +48,8 @@ $route->get("/perfil", "WebAdmin:profile", "webAdmin.profile");
 /** Requisições */
 $route->post("/dailyFood", "RequestAdmin:dailyFoods", "requestAdmin.dailyFoods");
 $route->post("/myShopping", "RequestAdmin:myShopping", "requestAdmin.myShopping");
+$route->put("/changeVaccination", "RequestAdmin:changeVaccination", "requestAdmin.changeVaccination");
+$route->put("/changeSerratedTeeth", "RequestAdmin:changeSerratedTeeth", "requestAdmin.changeSerratedTeeth");
 
 /** 
  * API
@@ -107,5 +110,6 @@ $route->delete("/feed_purchases_historic/{feed_purchases_historic}", "FeedPurcha
 $route->dispatch();
 
 if ($route->error()) {
-    echo "<h1>{$route->error()}</h1>";
+   echo $route->error();
+    //$route->redirect('web.error', ["error" => $route->error()]);
 }

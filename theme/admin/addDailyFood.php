@@ -36,16 +36,18 @@
                                     <?php endforeach; ?>
                                 </select>
                             </div>
-
                             <div class="mt-2">
                                 <label for="amount">Quantidade de comida (kg)</label>
-                                <input type="text" name="amount" class="form-control">
+                                <input type="number" name="amount" class="form-control" step="0.001">
                             </div>
-
                             <div class="d-grid mt-3">
                                 <button class="btn btn-primary" type="submit">Salvar</button>
                             </div>
-
+                            <div class="d-none justify-content-center mt-2 load">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-1 col-md-3 col-lg-4"></div>
                     </div>

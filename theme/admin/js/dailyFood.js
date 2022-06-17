@@ -10,7 +10,7 @@ $(function () {
             dataType: $('#form').attr('data-type'),
             data: 'date=' + date,
             beforeSend: function () {
-
+               
             },
             success: (data) => {
                 console.log(data);
@@ -21,7 +21,7 @@ $(function () {
                 console.log(error.responseText);
             }
         }).always(function () {
-
+            
         });
 
     });
@@ -60,7 +60,7 @@ function dailyFoods(data) {
         $('tbody').append(`
             <tr id="${element.id}">
                 <td class="fw-bold">${element.foodName}</td>
-                <td>${element.amount}</td>
+                <td>${element.amount} kg</td>
                 
                 <td><a href="#"><i class="fas fa-edit"></i></a></td>
                 <td><button data-bs-target="#delete" data-bs-toggle="modal" class="btn delete"><i class="fas fa-trash" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Apagar mensagem"></i></button></td>

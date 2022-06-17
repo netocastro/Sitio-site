@@ -31,6 +31,11 @@
                             <div class="d-grid mt-3">
                                 <button class="btn btn-primary" type="submit">Salvar</button>
                             </div>
+                            <div class="d-none justify-content-center mt-2 load">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
 
                         </div>
                         <div class="col-1 col-md-3 col-lg-4"></div>

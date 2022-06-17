@@ -5,7 +5,6 @@
 
 <?php $v->end(); ?>
 
-
 <!-- ============================================================== -->
 <!-- End Bread crumb and right sidebar toggle -->
 <!-- ============================================================== -->
@@ -36,25 +35,32 @@
                                 <th class="border-top-0">den. ser.</th>
                                 <th class="border-top-0"></th>
                                 <th class="border-top-0"></th>
-
                             </tr>
                         </thead>
                         <tbody>
-                        <?php if(isset($pigs)) : ?>
+                            <?php if (isset($pigs)) : ?>
 
-                            <?php foreach ($pigs as $pig) : ?>
-                                <tr id="<?= $pig->id; ?>">
-                                    <td class="fw-bold"><?= $pig->name ?></td>
-                                    <td><?= $pig->breedName ?></td>
-                                    <td><?= date("d/m/Y", strtotime($pig->birthday)); ?></td>
-                                    <td><?= $pig->starting_weight ?> kg</td>
-                                    <td><?= date("d/m/Y", strtotime($pig->slaughter_day)); ?></td>
-                                    <td class="text-center"><?= ($pig->serrated_teeth ? 'sim' : 'não') ?></td>
-                                    <td class="text-center"><?= ($pig->vaccination ? 'sim' : 'não')?></td>
-                                    <td><a href=""><i class="fas fa-edit"></i></a></td>
-                                    <td><button data-bs-target="#delete" data-bs-toggle="modal" class="btn delete"><i class="fas fa-trash" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Apagar mensagem"></i></button></td>
-                                </tr>
-                            <?php endforeach; ?>
+                                <?php foreach ($pigs as $pig) : ?>
+                                    <tr id="<?= $pig->id; ?>">
+                                        <td class="fw-bold"><?= $pig->name ?></td>
+                                        <td><?= $pig->breedName ?></td>
+                                        <td><?= date("d/m/Y", strtotime($pig->birthday)); ?></td>
+                                        <td><?= number_format($pig->starting_weight, 3, ',', '.') ?> kg</td>
+                                        <td><?= date("d/m/Y", strtotime($pig->slaughter_day)); ?></td>
+                                        <td>
+                                            <div class="form-check form-switch justify-content-center d-flex">
+                                                <input data-bs-target="#modal-change-vaccination" data-bs-toggle="modal" class="form-check-input vaccination" <?= ($pig->vaccination ? 'checked' : ''); ?> type="checkbox" id="flexSwitchCheckChecked">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check form-switch justify-content-center d-flex">
+                                                <input data-bs-target="#modal-change-serrated-teeth" data-bs-toggle="modal" class="form-check-input serrated-teeth" <?= ($pig->serrated_teeth ? 'checked' : ''); ?> type="checkbox" id="flexSwitchCheckChecked2">
+                                            </div>
+                                        </td>
+                                        <td><a href=""><i class="fas fa-edit"></i></a></td>
+                                        <td><button data-bs-target="#delete" data-bs-toggle="modal" class="btn delete"><i class="fas fa-trash" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Apagar mensagem"></i></button></td>
+                                    </tr>
+                                <?php endforeach; ?>
                             <?php endif; ?>
                         </tbody>
                     </table>
@@ -99,6 +105,54 @@
 
             <div class="modal-footer ">
                 <button type="button" class="btn btn-outline-secondary " data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Atualizar vacinação-->
+<div class="modal fade" id="modal-change-vaccination" data-bs-backdrop="static" tabindex="-1" aria-labelledby="update" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header border">
+                <h6 class="modal-title">
+                    Confirmação
+                </h6>
+                <button type="button" class="btn-close cancel-vaccination" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body my-3 ps-2 " id="delete-message">
+                <div class="text-center"> Tem certeza que deseja Mudar essa opção ?</div>
+                <div class="text-center mt-3">
+                    <button type="button" class="btn btn-primary confirm-change-vaccination" data-id="0" data-bs-dismiss="modal" data-url="<?= $route->route('requestAdmin.changeVaccination') ?>">Confirmar</button>
+                </div>
+            </div>
+
+            <div class="modal-footer ">
+                <button type="button" class="btn btn-outline-secondary cancel-vaccination" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Atualizar dentes serrados-->
+<div class="modal fade" id="modal-change-serrated-teeth" data-bs-backdrop="static" tabindex="-1" aria-labelledby="update" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header border">
+                <h6 class="modal-title">
+                    Confirmação
+                </h6>
+                <button type="button" class="btn-close cancel-serrated-teeth" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body my-3 ps-2 " id="delete-message">
+                <div class="text-center"> Tem certeza que deseja Mudar essa opção ?</div>
+                <div class="text-center mt-3">
+                    <button type="button" class="btn btn-primary confirm-change-serrated-teeth" data-id="0" data-bs-dismiss="modal" data-url="<?= $route->route('requestAdmin.changeSerratedTeeth') ?>">Confirmar</button>
+                </div>
+            </div>
+
+            <div class="modal-footer ">
+                <button type="button" class="btn btn-outline-secondary cancel-serrated-teeth" data-bs-dismiss="modal">Cancelar</button>
             </div>
         </div>
     </div>

@@ -69,4 +69,15 @@ class Web
             "route" => $this->route
         ]);
     }
+    
+    public function error($data)
+    {
+        echo $this->view->render("error", [
+            "title" => "Error: " . $data['error'],
+            "route" => $this->route,
+            "error" => $data['error']
+        ]);
+    }
+
+
 }

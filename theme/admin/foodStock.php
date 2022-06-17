@@ -16,6 +16,7 @@
     <!-- Start Page Content -->
     <!-- ============================================================== -->
     <div class="row">
+      
         <div class="col-sm-12">
             <div class="white-box">
                 <div class="d-flex justify-content-between">
@@ -38,7 +39,7 @@
 
                                     <tr id="<?= $food->id; ?>">
                                         <td class="fw-bold"><?= $food->foodName() ?></td>
-                                        <td><?= $food->amount ?> kg </td>
+                                        <td><?= number_format($food->amount, 3, ',', '.') ?> kg </td>
 
                                         <td><a href="#"><i class="fas fa-edit"></i></a></td>
                                         <td><button data-bs-target="#delete" data-bs-toggle="modal" class="btn delete"><i class="fas fa-trash" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Apagar mensagem"></i></button></td>
@@ -96,6 +97,6 @@
 
 <?php $v->start('js'); ?>
 
-<script src="<?= url('theme/admin/js/dailyFood.js'); ?>"></script>
+<script src="<?= url('theme/admin/js/foodStock.js'); ?>"></script>
 
 <?php $v->end(); ?>

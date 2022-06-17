@@ -43,11 +43,17 @@
                             </div>
                             <div class="mt-2">
                                 <label for="starting_weight">Peso inicial (kg)</label>
-                                <input type="text" name="starting_weight" class="form-control" id="starting_weight">
+                                <input type="number" name="starting_weight" class="form-control" id="starting_weight" step="0.001">
                             </div>
 
                             <div class="d-grid mt-3">
                                 <button class="btn btn-primary" type="submit">Salvar</button>
+                            </div>
+
+                            <div class="d-none justify-content-center mt-2 load">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
                             </div>
 
                         </div>

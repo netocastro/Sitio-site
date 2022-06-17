@@ -4,7 +4,7 @@ namespace Source\Controllers\Api;
 
 use Source\Models\FoodStock;
 
-class FeedPurchasesHistoricController
+class FoodStockController
 {
     public function index()
     {
@@ -77,11 +77,14 @@ class FeedPurchasesHistoricController
 
     public function delete($data)
     {
-        $foodStock = (new FoodStock())->findById($data['feedPurchasesHistoric']);
+
+        /* o $data['id'] foi colocado para suprir as necessidade da propria aplicação
+        para uma api separada e externa alterar para $data['feedPurchasesHistoric'] */
+        $foodStock = (new FoodStock())->find('user_id = :uid and id = :id', "uid={$_SESSION['userInfo']->id}&id={$data['id']}")->fetch();
 
         if ($foodStock) {
             if ($foodStock->destroy()) {
-                echo json_encode(['deletedFeedPurchasesHistoric' => 'Registro de compra deletado com sucesso']);
+                echo json_encode(['deletedFoodStock' => 'Registro de compra deletado com sucesso']);
                 return;
             } else {
                 echo json_encode($foodStock->fail()->getMessage());

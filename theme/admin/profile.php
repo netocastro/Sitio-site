@@ -72,10 +72,15 @@
                                 <input type="password" value="password" class="form-control p-0 border-0">
                             </div>
                         </div>
-                        
+
                         <div class="form-group mb-4">
                             <div class="col-sm-12">
                                 <button class="btn btn-success">Update Profile</button>
+                            </div>
+                            <div class="d-none justify-content-center mt-2 load">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
                             </div>
                         </div>
                     </form>
